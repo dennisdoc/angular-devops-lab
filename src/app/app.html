@@ -1,0 +1,50 @@
+<main class="shell">
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Angular DevOps Lab home">
+      <span class="brand-mark">A</span>
+      <span>Angular DevOps Lab</span>
+    </a>
+    <span class="status"><span class="status-dot"></span>Learning environment</span>
+  </header>
+
+  <section class="intro" aria-labelledby="page-title">
+    <p class="eyebrow">FROM COMMIT TO CLUSTER</p>
+    <h1 id="page-title">Ship Angular.<br /><span>Learn DevOps.</span></h1>
+    <p class="summary">
+      A hands-on path from your Angular app to a container, a Kubernetes deployment, and a free
+      GitHub-hosted release.
+    </p>
+    <a class="primary-link" href="https://github.com/dennisdoc/angular-devops-lab">
+      Explore the project <span aria-hidden="true">↗</span>
+    </a>
+  </section>
+
+  <section class="pipeline" aria-labelledby="pipeline-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">THE DELIVERY PIPELINE</p>
+        <h2 id="pipeline-title">One step at a time</h2>
+      </div>
+      <span class="free-label">FREE &amp; OPEN SOURCE</span>
+    </div>
+
+    <ol class="stage-grid">
+      @for (stage of stages; track stage.number) {
+        <li class="stage-card">
+          <span class="stage-number">{{ stage.number }}</span>
+          <h3>{{ stage.title }}</h3>
+          <p>{{ stage.detail }}</p>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <footer class="footer">
+    <span>Angular · Docker · Kubernetes · Helm</span>
+    <a href="https://github.com/dennisdoc/angular-devops-lab">
+      View learning roadmap <span aria-hidden="true">→</span>
+    </a>
+  </footer>
+
+  <router-outlet />
+</main>

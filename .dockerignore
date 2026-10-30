@@ -1,0 +1,10 @@
+.angular
+.git
+.github
+.vscode
+coverage
+dist
+node_modules
+npm-debug.log
+reports
+*.tar.gz
