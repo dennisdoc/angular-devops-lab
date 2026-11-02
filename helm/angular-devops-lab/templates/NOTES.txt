@@ -1,0 +1,7 @@
+The Angular DevOps Lab is deployed.
+
+Forward the Service to your machine:
+
+  kubectl port-forward svc/{{ include "angular-devops-lab.fullname" . }} 8080:{{ .Values.service.port }}
+
+Then open http://localhost:8080

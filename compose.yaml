@@ -1,0 +1,6 @@
+services:
+  web:
+    build: .
+    image: angular-devops-lab:local
+    ports:
+      - "8080:8080"

@@ -1,41 +1,66 @@
-# angular-devops-lab
+# Angular DevOps Lab
 
-A hands-on DevOps lab showing how to ship an Angular application to
-Kubernetes end to end, using only free and open-source tools.
+A free, open-source learning project for shipping an Angular application with
+Docker, Kubernetes, Helm, and GitHub Actions.
 
-## What it covers
+## What is included
 
-- **Docker**: multi-stage build (Node build → nginx), runtime config via ConfigMap
-- **Kubernetes**: Deployment, Service, Ingress, ConfigMaps, rolling updates
-  with zero downtime (`maxUnavailable: 0`)
-- **Helm**: chart with configurable `values.yaml`, optional SQL init Job
-  against Postgres, install / upgrade / rollback
-- **Python deploy lifecycle**: `pre.py`, `install.py`, `post.py`,
-  `revert.py`, `backup.py` wrapping Helm and kubectl
-- **CI/CD**: GitHub Actions (or Jenkins) with lint, Jest, SonarCloud,
-  Trivy scan, image push to ghcr.io and a smoke test on a throwaway
-  kind cluster
+- Angular 22 app and Jest tests, generated with Angular CLI 22.2.5, styled
+  with SCSS
+- Multi-stage Node 26 / unprivileged NGINX container and Docker Compose
+- Helm chart with a Deployment, Service, health probes, and optional Ingress
+- GitHub Actions for pull-request checks, GitHub Pages hosting, and GHCR images
+- Optional Jenkins CI and self-hosted Artifactory Community Edition
+- A beginner-friendly [learning roadmap](docs/learning-roadmap.md)
 
-## Architecture
+## Run locally
 
-Angular build → Docker image → ghcr.io → Helm chart → Kubernetes (kind)
-                                   ↑
-                  Python deploy scripts orchestrate each stage
+Requires Node.js 26 LTS and npm 12.2.1:
 
-## Quick start
+```sh
+npm install --global npm@12.2.1
+npm ci
+npm start
+```
 
-1. `kind create cluster`
-2. `docker build -t angular-devops-lab:local .`
-3. `kind load docker-image angular-devops-lab:local`
-4. `python deploy-src/install.py`
-5. `kubectl port-forward svc/angular-devops-lab 8080:80`
+Open `http://localhost:4200`. To run the production container instead, install
+a container runtime and use:
 
-## Tech stack
+```sh
+docker compose up --build
+```
 
-Angular · Docker · nginx · Kubernetes (kind) · Helm · Python ·
-GitHub Actions · Jenkins · SonarCloud · Trivy · Postgres
+Open `http://localhost:8080`.
 
-## Goals
+Run the Jest suite once with `npm run test:unit`; CI uses
+`npm run test:ci` to generate coverage and a Jenkins-compatible JUnit report.
 
-Built as a learning project to practice containerization, Kubernetes
-operations, Helm packaging and release automation in a realistic setup.
+## Deploy to local Kubernetes
+
+Install `kubectl`, `kind`, and Helm, then follow the [Kubernetes setup and
+study plan](docs/learning-roadmap.md#2-kubernetes-fundamentals).
+
+## Free hosting
+
+GitHub Pages can host the built static Angular site for free. Enable **Settings
+→ Pages → GitHub Actions** once; pushes to `main` publish the site. A separate
+job publishes containers to GHCR after checks pass. See the roadmap for the
+one-time GHCR public-visibility setting and free-tier notes.
+
+**Important:** GitHub Pages serves the static site; it does not host
+containers or Kubernetes. The Kubernetes part of this lab runs locally with
+`kind`. There is no always-free hosted Kubernetes provider required.
+
+## Study plan
+
+Learn container basics, Kubernetes concepts, cluster operations, Helm, then
+CI/CD and production practices. Python is optional and not required for this
+starter. See [docs/learning-roadmap.md](docs/learning-roadmap.md).
+
+## Optional Jenkins pipeline
+
+The root `Jenkinsfile` runs Jest, the Angular build, Docker and Helm checks,
+then archives the static build. With a self-hosted Artifactory CE configured,
+it can upload that archive too. See
+[docs/jenkins.md](docs/jenkins.md) for Jenkins/GitHub webhook setup and
+Artifactory configuration. GitHub Actions remains the hosted free CI/CD path.
